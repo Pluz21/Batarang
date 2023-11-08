@@ -244,43 +244,51 @@ void ABatarang::UpdateLightColor(const FLinearColor& _color)
 	}
 }
 
-//void ABatarang::Possess(ABatman* _batman)
-//{
-//	{
-//		//UWorld* _world = GetWorld();
-//		////if (!_batman)return;
-//		//if (!_world) return;
-//		//APlayerController* _batarangController = _world->GetFirstPlayerController();
-//		//_batman->GetInstigatorController()->UnPossess();
-//		//if (!_batarangController)return;
-//		//_batarangController->Possess(this);
-//		//UE_LOG(LogTemp, Warning, TEXT("possession done"));
-//		////SetViewTarget();
-//
-//
-//	}
-//}
+void ABatarang::InitBatarang()
+{
+	//{
+	UWorld* _world = GetWorld();
+	//if (!_batman)return;
+	if (!_world) return;
+	APlayerController* _batarangController = _world->GetFirstPlayerController();
+	//_batman->GetInstigatorController()->UnPossess();
+	//if (!_batarangController)return;
+	GetWorld()->GetFirstPlayerController()->SetViewTargetWithBlend(this, 2);
+	//	_batarangController->Possess(this);
+	UE_LOG(LogTemp, Warning, TEXT("possession done"));
+	FTimerHandle _timerPossess;
+	GetWorldTimerManager().SetTimer(_timerPossess, this, &ABatarang::TakeControl, 2);
+	//
+	//
+	//	}
+}
 
 void ABatarang::StopPossess()
 {
 
 	//if (!playerController)return;
 	GetInstigatorController()->UnPossess();
-	Possess();
+	//Possess();
 
 }
 
-void ABatarang::Possess()
+//void ABatarang::Possess()
+//{
+//	if (!playerController)
+//	{
+//		UE_LOG(LogTemp, Warning, TEXT("issue"));
+//	}
+//	AActor* _batman = GetOwner();
+//	ABatman* _batManOwner = Cast<ABatman>(_batman);
+//	if (!_batManOwner)return;
+//	_batManOwner->Possess();
+//	UE_LOG(LogTemp, Warning, TEXT("possessing"));
+//
+//}
+
+void ABatarang::TakeControl()
 {
-	if (!playerController)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("issue"));
-	}
-	AActor* _batman = GetOwner();
-	ABatman* _batManOwner = Cast<ABatman>(_batman);
-	if (!_batManOwner)return;
-	_batManOwner->Possess();
-	UE_LOG(LogTemp, Warning, TEXT("possessing"));
-
+	GetWorld()->GetFirstPlayerController()->Possess(this);
 }
+
 

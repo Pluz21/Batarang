@@ -168,6 +168,6 @@ public:
 	//void Possess(ABatman* _batman);
 	UFUNCTION(BlueprintCallable)
 	void StopPossess();
-	UFUNCTION(BlueprintCallable)
-	void Possess();
+	void InitBatarang();
+	void TakeControl();
 };
