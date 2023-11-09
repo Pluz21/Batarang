@@ -258,7 +258,7 @@ void ABatarang::InitBatarang()
 	UE_LOG(LogTemp, Warning, TEXT("possession done"));
 	FTimerHandle _timerPossess;
 	GetWorld()->GetFirstPlayerController()->SetViewTargetWithBlend(this, 1);
-	GetWorldTimerManager().SetTimer(_timerPossess, this, &ABatarang::TakeControl, 2);
+	GetWorldTimerManager().SetTimer(_timerPossess, this, &ABatarang::TakeControl, 3);
 	//
 	//
 	//	}
