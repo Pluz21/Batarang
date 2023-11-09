@@ -32,6 +32,7 @@ void ABatarang::BeginPlay()
 	Super::BeginPlay();
 	characterMoveCompo = GetCharacterMovement();
 	playerController = GetWorld()->GetFirstPlayerController();
+	InitBatarang();
 	Init();
 	InitInput();
 	GetComponents<UPointLightComponent>(allLights);
