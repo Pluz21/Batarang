@@ -8,6 +8,9 @@
 #include "EnhancedInputComponent.h"
 #include "InputMappingContext.h"
 
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+
 #include "Batman.generated.h"
 
 class ABatarang;
@@ -15,6 +18,10 @@ UCLASS()
 class CPPBATARANG_API ABatman : public ACharacter
 {
 	GENERATED_BODY()
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<USpringArmComponent> springArm;
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UCameraComponent> camera;
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<ABatarang> batarangToPossess;
@@ -43,14 +50,22 @@ class CPPBATARANG_API ABatman : public ACharacter
 	
 	UPROPERTY(EditAnywhere)
 	FVector spawnLocation;
+
 	UPROPERTY(EditAnywhere)
 	float forwardDistance = 0;
 	UPROPERTY(EditAnywhere)
 	float upDistance = 0;
 	UPROPERTY(EditAnywhere)
-	float rotateSpeed = 200;
+	float rotateSpeed = 20;
 	UPROPERTY(EditAnywhere)
 	float moveSpeed = 500;
+
+	UPROPERTY(EditAnywhere)
+	float minPitchRotation = -65;
+	UPROPERTY(EditAnywhere)
+	float maxPitchRotation = 40;
+
+
 	
 public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)

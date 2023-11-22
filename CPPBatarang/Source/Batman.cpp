@@ -3,6 +3,8 @@
 
 #include "Batman.h"
 #include "Batarang.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -11,6 +13,10 @@ ABatman::ABatman()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	springArm = CreateDefaultSubobject<USpringArmComponent>("Springarm");
+	camera = CreateDefaultSubobject<UCameraComponent>("Camera");
+	camera->SetupAttachment(springArm);
+	springArm->SetupAttachment(RootComponent);
 
 }
 void ABatman::BeginPlay()
@@ -53,11 +59,22 @@ void ABatman::RotateYaw(const FInputActionValue& _value)
 
 void ABatman::RotatePitch(const FInputActionValue& _value)
 {
+	//float _delta = GetWorld()->DeltaTimeSeconds;
+	//float _rotateValue = _value.Get<float>() * _delta * rotateSpeed;
+	////rotateInputValue = _rotateValue;
+	////UE_LOG(LogTemp, Warning, TEXT("Pitchused"));
+	//AddControllerPitchInput(-_rotateValue);
+
 	float _delta = GetWorld()->DeltaTimeSeconds;
-	float _rotateValue = _value.Get<float>() * _delta * rotateSpeed;
+	const float _rotateValue = _value.Get<float>() * _delta * rotateSpeed;
 	//rotateInputValue = _rotateValue;
-	//UE_LOG(LogTemp, Warning, TEXT("Pitchused"));
-	AddControllerPitchInput(-_rotateValue);
+	FRotator _currentRotation = springArm->GetComponentRotation();
+	float _newPitch = FMath::Clamp(_currentRotation.Pitch + _rotateValue, minPitchRotation, maxPitchRotation);
+
+	FRotator _newArmRotation = FRotator(_newPitch, _currentRotation.Yaw, _currentRotation.Roll);
+	springArm->SetWorldRotation(_newArmRotation);
+
+
 }
 
 void ABatman::Launch(const FInputActionValue& _value)
